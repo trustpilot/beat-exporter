@@ -1,6 +1,6 @@
 beat-exporter for Prometheus
 =
-[![Build Status](https://travis-ci.com/trustpilot/beat-exporter.svg?token=iiryqu5r7QUR7uXsnd8L&branch=master)](https://travis-ci.com/trustpilot/beat-exporter)
+[![Build Status](https://travis-ci.org/trustpilot/beat-exporter.svg?branch=master)](https://travis-ci.org/trustpilot/beat-exporter)
 
 Exposes (file|metric)beat statistics from beats statistics endpoint to prometheus format, automaticly configuring collectors for apporiate beat type.
 
