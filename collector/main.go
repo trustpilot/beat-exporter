@@ -92,7 +92,7 @@ func (b *mainCollector) Collect(ch chan<- prometheus.Metric) {
 	err := b.fetchStatsEndpoint()
 	if err != nil {
 		ch <- prometheus.MustNewConstMetric(b.targetUp, prometheus.GaugeValue, float64(0)) // set target down
-		log.Errorf("Failed getting /stats endpoint of target")
+		log.Errorf("Failed getting /stats endpoint of target: " + err.Error())
 		return
 	}
 
