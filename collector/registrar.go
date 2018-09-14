@@ -6,7 +6,11 @@ import (
 
 //Registrar json structure
 type Registrar struct {
-	Writes float64 `json:"writes"`
+	Writes struct {
+		Fail    float64 `json:"fail"`
+		Success float64 `json:"success"`
+		Total   float64 `json:"total"`
+	} `json:"writes"`
 	States struct {
 		Cleanup float64 `json:"cleanup"`
 		Current float64 `json:"current"`
@@ -30,10 +34,28 @@ func NewRegistrarCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collecto
 				desc: prometheus.NewDesc(
 					prometheus.BuildFQName(beatInfo.Beat, "registrar", "writes"),
 					"registrar.writes",
-					nil, nil,
+					nil, prometheus.Labels{"writes": "fail"},
 				),
-				eval:    func(stats *Stats) float64 { return stats.Registrar.Writes },
-				valType: prometheus.CounterValue,
+				eval:    func(stats *Stats) float64 { return stats.Registrar.Writes.Fail },
+				valType: prometheus.GaugeValue,
+			},
+			{
+				desc: prometheus.NewDesc(
+					prometheus.BuildFQName(beatInfo.Beat, "registrar", "writes"),
+					"registrar.writes",
+					nil, prometheus.Labels{"writes": "success"},
+				),
+				eval:    func(stats *Stats) float64 { return stats.Registrar.Writes.Success },
+				valType: prometheus.GaugeValue,
+			},
+			{
+				desc: prometheus.NewDesc(
+					prometheus.BuildFQName(beatInfo.Beat, "registrar", "writes"),
+					"registrar.writes",
+					nil, prometheus.Labels{"writes": "total"},
+				),
+				eval:    func(stats *Stats) float64 { return stats.Registrar.Writes.Total },
+				valType: prometheus.GaugeValue,
 			},
 			{
 				desc: prometheus.NewDesc(
