@@ -54,7 +54,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			{
 				desc: prometheus.NewDesc(
 					prometheus.BuildFQName(beatInfo.Beat, "system", "load"),
-					"system load 1m",
+					"system load 5m",
 					nil, prometheus.Labels{"period": "5"},
 				),
 				eval:    func(stats *Stats) float64 { return stats.System.Load.M5 },
@@ -63,7 +63,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			{
 				desc: prometheus.NewDesc(
 					prometheus.BuildFQName(beatInfo.Beat, "system", "load"),
-					"system load 1m",
+					"system load 15m",
 					nil, prometheus.Labels{"period": "15"},
 				),
 				eval:    func(stats *Stats) float64 { return stats.System.Load.M15 },
@@ -81,7 +81,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			{
 				desc: prometheus.NewDesc(
 					prometheus.BuildFQName(beatInfo.Beat, "system_load", "norm"),
-					"system load 1m",
+					"system load 5m",
 					nil, prometheus.Labels{"period": "5"},
 				),
 				eval:    func(stats *Stats) float64 { return stats.System.Load.Norm.M5 },
@@ -90,7 +90,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			{
 				desc: prometheus.NewDesc(
 					prometheus.BuildFQName(beatInfo.Beat, "system_load", "norm"),
-					"system load 1m",
+					"system load 15m",
 					nil, prometheus.Labels{"period": "15"},
 				),
 				eval:    func(stats *Stats) float64 { return stats.System.Load.Norm.M15 },
