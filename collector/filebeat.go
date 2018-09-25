@@ -27,7 +27,7 @@ type Filebeat struct {
 				Truncated float64 `json:"truncated"`
 			} `json:"files"`
 		} `json:"log"`
-	} `json:"prospector"`
+	} `json:"input"`
 }
 
 type filebeatCollector struct {
