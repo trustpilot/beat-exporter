@@ -20,14 +20,14 @@ type Filebeat struct {
 		Started   float64 `json:"started"`
 	} `json:"harvester"`
 
-	Prospector struct {
+	Input struct {
 		Log struct {
 			Files struct {
 				Renamed   float64 `json:"renamed"`
 				Truncated float64 `json:"truncated"`
 			} `json:"files"`
 		} `json:"log"`
-	} `json:"prospector"`
+	} `json:"input"`
 }
 
 type filebeatCollector struct {
@@ -116,20 +116,20 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "prospector_log"),
-					"filebeat.prospector_log",
+					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "input_log"),
+					"filebeat.input_log",
 					nil, prometheus.Labels{"files": "renamed"},
 				),
-				eval:    func(stats *Stats) float64 { return stats.Filebeat.Prospector.Log.Files.Renamed },
+				eval:    func(stats *Stats) float64 { return stats.Filebeat.Input.Log.Files.Renamed },
 				valType: prometheus.UntypedValue,
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "prospector_log"),
-					"filebeat.prospector_log",
+					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "input_log"),
+					"filebeat.input_log",
 					nil, prometheus.Labels{"files": "truncated"},
 				),
-				eval:    func(stats *Stats) float64 { return stats.Filebeat.Prospector.Log.Files.Truncated },
+				eval:    func(stats *Stats) float64 { return stats.Filebeat.Input.Log.Files.Truncated },
 				valType: prometheus.UntypedValue,
 			},
 		},
