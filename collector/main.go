@@ -3,25 +3,26 @@ package collector
 import (
 	"encoding/json"
 	"fmt"
+	influx "github.com/influxdata/influxdb/client/v2"
+	"github.com/prometheus/client_golang/prometheus"
+	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"regexp"
-
-	"github.com/prometheus/client_golang/prometheus"
-	log "github.com/sirupsen/logrus"
 )
 
 type mainCollector struct {
-	Collectors map[string]prometheus.Collector
-	Stats      *Stats
-	client     *http.Client
-	beatURL    *url.URL
-	name       string
-	beatInfo   *BeatInfo
-	targetDesc *prometheus.Desc
-	targetUp   *prometheus.Desc
-	metrics    exportedMetrics
+	Collectors   map[string]prometheus.Collector
+	Stats        *Stats
+	client       *http.Client
+	beatURL      *url.URL
+	name         string
+	beatInfo     *BeatInfo
+	targetDesc   *prometheus.Desc
+	targetUp     *prometheus.Desc
+	metrics      exportedMetrics
+	influxClient influx.Client
 }
 
 // HackfixRegex regex to replace JSON part
@@ -47,8 +48,8 @@ func NewMainCollector(client *http.Client, url *url.URL, name string, beatInfo *
 			nil,
 			nil),
 
-		beatInfo: beatInfo,
-		metrics:  exportedMetrics{},
+		beatInfo:     beatInfo,
+		metrics:      exportedMetrics{},
 	}
 
 	beat.Collectors["system"] = NewSystemCollector(beatInfo, beat.Stats)
@@ -56,6 +57,7 @@ func NewMainCollector(client *http.Client, url *url.URL, name string, beatInfo *
 	beat.Collectors["libbeat"] = NewLibBeatCollector(beatInfo, beat.Stats)
 	beat.Collectors["registrar"] = NewRegistrarCollector(beatInfo, beat.Stats)
 	beat.Collectors["filebeat"] = NewFilebeatCollector(beatInfo, beat.Stats)
+	beat.Collectors["influxbeat"] = NewInluxbeatCollector(beatInfo, beat.Stats)
 	beat.Collectors["metricbeat"] = NewMetricbeatCollector(beatInfo, beat.Stats)
 
 	return beat
@@ -88,7 +90,6 @@ func (b *mainCollector) Describe(ch chan<- *prometheus.Desc) {
 
 // Collect returns the current state of all metrics of the collector.
 func (b *mainCollector) Collect(ch chan<- prometheus.Metric) {
-
 	err := b.fetchStatsEndpoint()
 	if err != nil {
 		ch <- prometheus.MustNewConstMetric(b.targetUp, prometheus.GaugeValue, float64(0)) // set target down
@@ -113,10 +114,11 @@ func (b *mainCollector) Collect(ch chan<- prometheus.Metric) {
 	case "filebeat":
 		b.Collectors["filebeat"].Collect(ch)
 		b.Collectors["registrar"].Collect(ch)
+
+		b.Collectors["influxbeat"].Collect(ch)
 	case "metricbeat":
 		b.Collectors["metricbeat"].Collect(ch)
 	}
-
 }
 
 func (b *mainCollector) fetchStatsEndpoint() error {
