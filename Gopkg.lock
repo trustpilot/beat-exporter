@@ -79,6 +79,14 @@
   version = "v1.0.6"
 
 [[projects]]
+  digest = "1:3350ec3eae029fe39b5ad972777f3b81d6ef9f4b6ad21d3bb48e0b6292ba285d"
+  name = "github.com/trustpilot/beat-exporter"
+  packages = ["collector"]
+  pruneopts = ""
+  revision = "67af338c0fed4d18831566b9301e812277efbe60"
+  version = "v0.1.1"
+
+[[projects]]
   branch = "master"
   digest = "1:793a79198b755828dec284c6f1325e24e09186f1b7ba818b65c7c35104ed86eb"
   name = "golang.org/x/crypto"
@@ -105,6 +113,7 @@
     "github.com/prometheus/client_golang/prometheus/promhttp",
     "github.com/prometheus/common/version",
     "github.com/sirupsen/logrus",
+    "github.com/trustpilot/beat-exporter/collector",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
