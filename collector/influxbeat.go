@@ -43,7 +43,7 @@ type influxbeatCollector struct {
 }
 
 // NewInluxbeatCollector constructor
-func NewInluxbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
+func NewInfluxbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 	influxClient, _ := influx.NewHTTPClient(influx.HTTPConfig{
 		Addr:     "http://localhost:8086",
 		Username: "",

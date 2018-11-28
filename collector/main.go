@@ -57,7 +57,7 @@ func NewMainCollector(client *http.Client, url *url.URL, name string, beatInfo *
 	beat.Collectors["libbeat"] = NewLibBeatCollector(beatInfo, beat.Stats)
 	beat.Collectors["registrar"] = NewRegistrarCollector(beatInfo, beat.Stats)
 	beat.Collectors["filebeat"] = NewFilebeatCollector(beatInfo, beat.Stats)
-	beat.Collectors["influxbeat"] = NewInluxbeatCollector(beatInfo, beat.Stats)
+	beat.Collectors["influxbeat"] = NewInfluxbeatCollector(beatInfo, beat.Stats)
 	beat.Collectors["metricbeat"] = NewMetricbeatCollector(beatInfo, beat.Stats)
 
 	return beat
