@@ -109,7 +109,6 @@ func main() {
 		}()
 	}
 
-
 	go func() {
 		if err := http.ListenAndServe(*listenAddress, nil); err != nil {
 
@@ -129,10 +128,9 @@ func main() {
 	}
 }
 
-
 // IndexHandler returns a http handler with the correct metricsPath
 func IndexHandler(metricsPath string) http.HandlerFunc {
-	
+
 	indexHTML := `
 <html>
 	<head>
