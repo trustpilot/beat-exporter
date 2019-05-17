@@ -2,26 +2,34 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
+
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
+	
 	"strings"
-	"time"
-
 	log "github.com/sirupsen/logrus"
+	"github.com/trustpilot/beat-exporter/collector"
+
+	"flag"	
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/version"
-	"github.com/trustpilot/beat-exporter/collector"
+
+	"golang.org/x/sys/windows/svc"
+)
+
+const (
+	serviceName = "beat_exporter"
 )
 
 func main() {
 	var (
-		Name          = "beat_exporter"
+		Name          = serviceName
 		listenAddress = flag.String("web.listen-address", ":9479", "Address to listen on for web interface and telemetry.")
 		metricsPath   = flag.String("web.telemetry-path", "/metrics", "Path under which to expose metrics.")
 		beatURI       = flag.String("beat.uri", "http://localhost:5066", "HTTP API address of beat.")
@@ -88,17 +96,45 @@ func main() {
 		"addr": *listenAddress,
 	}).Infof("Starting exporter with configured type: %s", beatInfo.Beat)
 
-	if err := http.ListenAndServe(*listenAddress, nil); err != nil {
+	isInteractive, err := svc.IsAnInteractiveSession()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-		log.WithFields(log.Fields{
-			"err": err,
-		}).Errorf("http server quit with error: %v", err)
+	stopCh := make(chan bool)
+	if !isInteractive {
+		go func() {
+			err = svc.Run(serviceName, &beatExporterService{stopCh: stopCh})
+			if err != nil {
+				log.Errorf("Failed to start service: %v", err)
+			}
+		}()
+	}
 
+
+	go func() {
+		if err := http.ListenAndServe(*listenAddress, nil); err != nil {
+
+			log.WithFields(log.Fields{
+				"err": err,
+			}).Errorf("http server quit with error: %v", err)
+
+		}
+		fmt.Println("http server listening")
+	}()
+
+	for {
+		if <-stopCh {
+			log.Info("Shutting down beats exporter")
+			break
+		}
 	}
 }
 
+
 // IndexHandler returns a http handler with the correct metricsPath
 func IndexHandler(metricsPath string) http.HandlerFunc {
+	
 	indexHTML := `
 <html>
 	<head>
@@ -155,4 +191,31 @@ func loadBeatType(client *http.Client, url url.URL) (*collector.BeatInfo, error)
 		}).Info("Target beat configuration loaded successfully!")
 
 	return beatInfo, nil
+}
+
+type beatExporterService struct {
+	stopCh chan<- bool
+}
+
+func (s *beatExporterService) Execute(args []string, r <-chan svc.ChangeRequest, changes chan<- svc.Status) (ssec bool, errno uint32) {
+	const cmdsAccepted = svc.AcceptStop | svc.AcceptShutdown
+	changes <- svc.Status{State: svc.StartPending}
+	changes <- svc.Status{State: svc.Running, Accepts: cmdsAccepted}
+loop:
+	for {
+		select {
+		case c := <-r:
+			switch c.Cmd {
+			case svc.Interrogate:
+				changes <- c.CurrentStatus
+			case svc.Stop, svc.Shutdown:
+				s.stopCh <- true
+				break loop
+			default:
+				log.Error(fmt.Sprintf("unexpected control request #%d", c))
+			}
+		}
+	}
+	changes <- svc.Status{State: svc.StopPending}
+	return
 }
