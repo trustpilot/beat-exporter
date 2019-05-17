@@ -2,23 +2,21 @@ package main
 
 import (
 	"encoding/json"
-
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
-	
 	"strings"
-	log "github.com/sirupsen/logrus"
-	"github.com/trustpilot/beat-exporter/collector"
-
-	"flag"	
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/version"
+	"github.com/trustpilot/beat-exporter/collector"
 
 	"golang.org/x/sys/windows/svc"
 )
