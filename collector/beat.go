@@ -18,9 +18,9 @@ type CPUTimings struct {
 //BeatStats json structure
 type BeatStats struct {
 	CPU struct {
-		Sytem CPUTimings `json:"system"`
-		Total CPUTimings `json:"total"`
-		User  CPUTimings `json:"user"`
+		System CPUTimings `json:"system"`
+		Total  CPUTimings `json:"total"`
+		User   CPUTimings `json:"user"`
 	} `json:"cpu"`
 	BeatUptime struct {
 		Uptime struct {
@@ -56,7 +56,7 @@ func NewBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 					"beat.cpu.time",
 					nil, prometheus.Labels{"mode": "system"},
 				),
-				eval:    func(stats *Stats) float64 { return stats.Beat.CPU.Sytem.Time.MS },
+				eval:    func(stats *Stats) float64 { return stats.Beat.CPU.System.Time.MS },
 				valType: prometheus.CounterValue,
 			},
 			{
@@ -83,7 +83,7 @@ func NewBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 					"beat.cpu.ticks",
 					nil, prometheus.Labels{"mode": "system"},
 				),
-				eval:    func(stats *Stats) float64 { return stats.Beat.CPU.Sytem.Ticks },
+				eval:    func(stats *Stats) float64 { return stats.Beat.CPU.System.Ticks },
 				valType: prometheus.CounterValue,
 			},
 			{
