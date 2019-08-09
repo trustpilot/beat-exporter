@@ -17,8 +17,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/version"
 	"github.com/trustpilot/beat-exporter/collector"
-
-	"golang.org/x/sys/windows/svc"
+	"github.com/trustpilot/beat-exporter/internal/service"
 )
 
 const (
@@ -63,15 +62,35 @@ func main() {
 
 	var beatInfo *collector.BeatInfo
 
+	stopCh := make(chan bool)
+
+	err = service.SetupServiceListener(stopCh, serviceName, log.StandardLogger())
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Errorf("could not setup service listener: %v", err)
+	}
+
+	t := time.NewTicker(1 * time.Second)
+
+beatdiscovery:
 	for {
-		beatInfo, err = loadBeatType(httpClient, *beatURL)
-		if err != nil {
-			log.Errorf("Could not load beat type, with error: %v, retrying in 5s", err)
-			time.Sleep(5 * time.Second)
-		} else {
-			break
+		select {
+		case <-t.C:
+			beatInfo, err = loadBeatType(httpClient, *beatURL)
+			if err != nil {
+				log.Errorf("Could not load beat type, with error: %v, retrying in 1s", err)
+				continue
+			}
+
+			break beatdiscovery
+
+		case <-stopCh:
+			os.Exit(0) // signal received, stop gracefully
 		}
 	}
+
+	t.Stop()
 
 	// version metric
 	registry := prometheus.NewRegistry()
@@ -94,22 +113,12 @@ func main() {
 		"addr": *listenAddress,
 	}).Infof("Starting exporter with configured type: %s", beatInfo.Beat)
 
-	isInteractive, err := svc.IsAnInteractiveSession()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	stopCh := make(chan bool)
-	if !isInteractive {
-		go func() {
-			err = svc.Run(serviceName, &beatExporterService{stopCh: stopCh})
-			if err != nil {
-				log.Errorf("Failed to start service: %v", err)
-			}
-		}()
-	}
-
 	go func() {
+		defer func() {
+			stopCh <- true
+		}()
+
+		log.Info("Starting listener")
 		if err := http.ListenAndServe(*listenAddress, nil); err != nil {
 
 			log.WithFields(log.Fields{
@@ -117,7 +126,7 @@ func main() {
 			}).Errorf("http server quit with error: %v", err)
 
 		}
-		fmt.Println("http server listening")
+		log.Info("Listener exited")
 	}()
 
 	for {
@@ -187,31 +196,4 @@ func loadBeatType(client *http.Client, url url.URL) (*collector.BeatInfo, error)
 		}).Info("Target beat configuration loaded successfully!")
 
 	return beatInfo, nil
-}
-
-type beatExporterService struct {
-	stopCh chan<- bool
-}
-
-func (s *beatExporterService) Execute(args []string, r <-chan svc.ChangeRequest, changes chan<- svc.Status) (ssec bool, errno uint32) {
-	const cmdsAccepted = svc.AcceptStop | svc.AcceptShutdown
-	changes <- svc.Status{State: svc.StartPending}
-	changes <- svc.Status{State: svc.Running, Accepts: cmdsAccepted}
-loop:
-	for {
-		select {
-		case c := <-r:
-			switch c.Cmd {
-			case svc.Interrogate:
-				changes <- c.CurrentStatus
-			case svc.Stop, svc.Shutdown:
-				s.stopCh <- true
-				break loop
-			default:
-				log.Error(fmt.Sprintf("unexpected control request #%d", c))
-			}
-		}
-	}
-	changes <- svc.Status{State: svc.StopPending}
-	return
 }
