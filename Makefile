@@ -21,7 +21,7 @@ DOCKER_IMAGE_NAME       ?= beat-exporter
 DOCKER_IMAGE_TAG        ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
 
-all: format dependencies build test
+all: format dependencies vet test build 
 
 style:
 	@echo ">> checking code style"
