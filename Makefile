@@ -49,9 +49,10 @@ build: promu
 	@echo ">> building binaries"
 	@$(PROMU) build --prefix $(PREFIX)
 
-crossbuild: promu
+crossbuild: dependencies format vet test 
 	@echo ">> cross-building binaries"
-	@$(PROMU) crossbuild
+	@$(GO) get github.com/mitchellh/gox
+	@gox -arch="386 amd64" -os="linux darwin windows" --output=".build/{{.OS}}-{{.Arch}}/{{.Dir}}"
 
 tarball: promu
 	@echo ">> building release tarball"

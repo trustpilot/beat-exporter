@@ -17,11 +17,16 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/version"
 	"github.com/trustpilot/beat-exporter/collector"
+	"github.com/trustpilot/beat-exporter/internal/service"
+)
+
+const (
+	serviceName = "beat_exporter"
 )
 
 func main() {
 	var (
-		Name          = "beat_exporter"
+		Name          = serviceName
 		listenAddress = flag.String("web.listen-address", ":9479", "Address to listen on for web interface and telemetry.")
 		metricsPath   = flag.String("web.telemetry-path", "/metrics", "Path under which to expose metrics.")
 		beatURI       = flag.String("beat.uri", "http://localhost:5066", "HTTP API address of beat.")
@@ -57,15 +62,35 @@ func main() {
 
 	var beatInfo *collector.BeatInfo
 
+	stopCh := make(chan bool)
+
+	err = service.SetupServiceListener(stopCh, serviceName, log.StandardLogger())
+	if err != nil {
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Errorf("could not setup service listener: %v", err)
+	}
+
+	t := time.NewTicker(1 * time.Second)
+
+beatdiscovery:
 	for {
-		beatInfo, err = loadBeatType(httpClient, *beatURL)
-		if err != nil {
-			log.Errorf("Could not load beat type, with error: %v, retrying in 5s", err)
-			time.Sleep(5 * time.Second)
-		} else {
-			break
+		select {
+		case <-t.C:
+			beatInfo, err = loadBeatType(httpClient, *beatURL)
+			if err != nil {
+				log.Errorf("Could not load beat type, with error: %v, retrying in 1s", err)
+				continue
+			}
+
+			break beatdiscovery
+
+		case <-stopCh:
+			os.Exit(0) // signal received, stop gracefully
 		}
 	}
+
+	t.Stop()
 
 	// version metric
 	registry := prometheus.NewRegistry()
@@ -88,17 +113,33 @@ func main() {
 		"addr": *listenAddress,
 	}).Infof("Starting exporter with configured type: %s", beatInfo.Beat)
 
-	if err := http.ListenAndServe(*listenAddress, nil); err != nil {
+	go func() {
+		defer func() {
+			stopCh <- true
+		}()
 
-		log.WithFields(log.Fields{
-			"err": err,
-		}).Errorf("http server quit with error: %v", err)
+		log.Info("Starting listener")
+		if err := http.ListenAndServe(*listenAddress, nil); err != nil {
 
+			log.WithFields(log.Fields{
+				"err": err,
+			}).Errorf("http server quit with error: %v", err)
+
+		}
+		log.Info("Listener exited")
+	}()
+
+	for {
+		if <-stopCh {
+			log.Info("Shutting down beats exporter")
+			break
+		}
 	}
 }
 
 // IndexHandler returns a http handler with the correct metricsPath
 func IndexHandler(metricsPath string) http.HandlerFunc {
+
 	indexHTML := `
 <html>
 	<head>
