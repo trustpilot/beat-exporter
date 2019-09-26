@@ -7,9 +7,13 @@ jobs:
     - uses: actions/checkout@master
     - name: test
       uses: cedrickring/golang-action/go1.13@1.3.0
+      env:
+        GO111MODULE: "on"
       with:
         args: go test ./...
     - name: build
       uses: cedrickring/golang-action/go1.13@1.3.0
+      env:
+        GO111MODULE: "on"      
       with:
         args: ./build.sh
