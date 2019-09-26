@@ -1,7 +1,7 @@
 on: push
 name: test-and-build
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
 
@@ -18,10 +18,38 @@ jobs:
       run: |
         go mod download
 
-    - name: Run tests 
+    - name: Run unit-tests
       run: |
-        go test ./...
+        GO111MODULE=on CGO_ENABLED=0 go test ./...
 
     - name: Build executables
       run: |
         ./build.sh
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: binaries
+        path: .build
+
+  dockerimage:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Download artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: binaries
+        path: .build
+    
+    - name: list
+      run: |
+        ls -laR
+
+    - name: Build docker image
+      run: |
+        docker build . -t shivakis/beat-exporter
+
