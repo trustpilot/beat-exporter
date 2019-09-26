@@ -4,16 +4,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: test
-      uses: cedrickring/golang-action/go1.13@1.3.0
-      env:
-        GO111MODULE: "on"
+
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
       with:
-        args: go test ./...
-    - name: build
-      uses: cedrickring/golang-action/go1.13@1.3.0
-      env:
-        GO111MODULE: "on"      
-      with:
-        args: ./build.sh
+        go-version: 1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+      
+    - name: Get dependencies
+      run: |
+        go mod download
+
+    - name: Run tests 
+      run: |
+        go test ./...
+
+    - name: Build executables
+      run: |
+        ./build.sh
