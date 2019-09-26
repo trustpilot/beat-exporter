@@ -1,0 +1,15 @@
+on: push
+name: test-and-build
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: test
+      uses: cedrickring/golang-action/go1.13@1.3.0
+      with:
+        args: go test ./...
+    - name: build
+      uses: cedrickring/golang-action/go1.13@1.3.0
+      with:
+        args: ./build.sh

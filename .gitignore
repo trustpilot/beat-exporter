@@ -1,5 +1,6 @@
 vendor
 .build
+.release
 .tarballs
 .DS_Store
 beat-exporter
