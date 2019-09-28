@@ -52,7 +52,7 @@ func NewBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "cpu_time", "miliseconds"),
+					prometheus.BuildFQName(beatInfo.Beat, "cpu_time", "milliseconds"),
 					"beat.cpu.time",
 					nil, prometheus.Labels{"mode": "system"},
 				),
@@ -61,7 +61,7 @@ func NewBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "cpu_time", "miliseconds"),
+					prometheus.BuildFQName(beatInfo.Beat, "cpu_time", "milliseconds"),
 					"beat.cpu.time",
 					nil, prometheus.Labels{"mode": "user"},
 				),
@@ -70,7 +70,7 @@ func NewBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "cpu_time", "miliseconds"),
+					prometheus.BuildFQName(beatInfo.Beat, "cpu_time", "milliseconds"),
 					"beat.cpu.time",
 					nil, prometheus.Labels{"mode": "total"},
 				),
