@@ -1,6 +1,7 @@
 vendor
 .build
-.tarballs
+.release
+.vscode
 .DS_Store
 beat-exporter
 beat-exporter.exe
