@@ -1,4 +1,4 @@
-# beat-exporter for Prometheus [![Build Status](https://travis-ci.org/trustpilot/beat-exporter.svg?branch=master)](https://travis-ci.org/trustpilot/beat-exporter)
+# beat-exporter for Prometheus ![](https://github.com/trustpilot/beat-exporter/workflows/test-and-build/badge.svg)
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/trustpilot/beat-exporter.svg?maxAge=604800)](https://hub.docker.com/r/trustpilot/beat-exporter/)
 

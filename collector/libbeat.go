@@ -70,7 +70,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat_config", "reloads"),
+					prometheus.BuildFQName(beatInfo.Beat, "libbeat_config", "reloads_total"),
 					"libbeat.config.reloads",
 					nil, nil,
 				),
@@ -114,7 +114,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_read_bytes"),
+					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_read_bytes_total"),
 					"libbeat.output.read.bytes",
 					nil, nil,
 				),
@@ -125,7 +125,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_read_errors"),
+					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_read_errors_total"),
 					"libbeat.output.read.errors",
 					nil, nil,
 				),
@@ -136,7 +136,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_write_bytes"),
+					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_write_bytes_total"),
 					"libbeat.output.write.bytes",
 					nil, nil,
 				),
@@ -147,7 +147,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_write_errors"),
+					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_write_errors_total"),
 					"libbeat.output.write.errors",
 					nil, nil,
 				),
@@ -322,7 +322,7 @@ func (c *libbeatCollector) Describe(ch chan<- *prometheus.Desc) {
 	}
 
 	libbeatOutputType = prometheus.NewDesc(
-		prometheus.BuildFQName(c.beatInfo.Beat, "libbeat", "output"),
+		prometheus.BuildFQName(c.beatInfo.Beat, "libbeat", "output_total"),
 		"libbeat.output.type",
 		[]string{"type"}, nil,
 	)

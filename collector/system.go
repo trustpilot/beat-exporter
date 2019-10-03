@@ -35,7 +35,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system_cpu", "cores"),
+					prometheus.BuildFQName(beatInfo.Beat, "system_cpu", "cores_total"),
 					"cpu cores",
 					nil, nil,
 				),
