@@ -57,6 +57,7 @@ func NewMainCollector(client *http.Client, url *url.URL, name string, beatInfo *
 	beat.Collectors["registrar"] = NewRegistrarCollector(beatInfo, beat.Stats)
 	beat.Collectors["filebeat"] = NewFilebeatCollector(beatInfo, beat.Stats)
 	beat.Collectors["metricbeat"] = NewMetricbeatCollector(beatInfo, beat.Stats)
+	beat.Collectors["auditd"] = NewAuditdCollector(beatInfo, beat.Stats)
 
 	return beat
 }
@@ -74,6 +75,7 @@ func (b *mainCollector) Describe(ch chan<- *prometheus.Desc) {
 	b.Collectors["system"].Describe(ch)
 	b.Collectors["beat"].Describe(ch)
 	b.Collectors["libbeat"].Describe(ch)
+	b.Collectors["auditd"].Describe(ch)
 
 	// Customized collectors per beat type
 	switch b.beatInfo.Beat {
@@ -107,6 +109,7 @@ func (b *mainCollector) Collect(ch chan<- prometheus.Metric) {
 	b.Collectors["system"].Collect(ch)
 	b.Collectors["beat"].Collect(ch)
 	b.Collectors["libbeat"].Collect(ch)
+	b.Collectors["auditd"].Collect(ch)
 
 	// Customized collectors per beat type
 	switch b.beatInfo.Beat {
