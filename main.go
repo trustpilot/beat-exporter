@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -56,6 +58,18 @@ func main() {
 
 	httpClient := &http.Client{
 		Timeout: *beatTimeout,
+	}
+
+	if beatURL.Scheme == "unix" {
+		unixPath := beatURL.Path
+		beatURL.Scheme = "http"
+		beatURL.Host = "localhost"
+		beatURL.Path = ""
+		httpClient.Transport = &http.Transport{
+			DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
+				return (&net.Dialer{}).DialContext(ctx, "unix", unixPath)
+			},
+		}
 	}
 
 	log.Info("Exploring target for beat type")
