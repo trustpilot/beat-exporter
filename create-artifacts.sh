@@ -20,6 +20,7 @@ VERSION=$(git describe --tags | cut -d '-' -f1 | cut -d 'v' -f2)
 RELEASE_FILES=LICENSE
 
 mkdir -p $RELEASE_DIR
+touch "${RELEASE_DIR}/sha256sums.txt"
 
 for ARTIFACT in $(ls .build); do
     ARTIFACT_NAME="beat-exporter-${VERSION}-${ARTIFACT}.tar.gz"
@@ -29,4 +30,5 @@ for ARTIFACT in $(ls .build); do
     done
     
     cd "${GITHUB_WORKSPACE}/.build/${ARTIFACT}" && tar -cvzf ${GITHUB_WORKSPACE}/${RELEASE_DIR}/${ARTIFACT_NAME} *
+    echo `cd ${GITHUB_WORKSPACE}/${RELEASE_DIR} && sha256sum ${ARTIFACT_NAME}` >> "${GITHUB_WORKSPACE}/${RELEASE_DIR}/sha256sums.txt"
 done

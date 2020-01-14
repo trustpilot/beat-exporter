@@ -36,7 +36,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: './.release/beat-exporter-*'
+          args: './.release/*'
 
   docker:
     name: Publish docker images
