@@ -34,6 +34,7 @@ func main() {
 		beatURI       = flag.String("beat.uri", "http://localhost:5066", "HTTP API address of beat.")
 		beatTimeout   = flag.Duration("beat.timeout", 10*time.Second, "Timeout for trying to get stats from beat.")
 		showVersion   = flag.Bool("version", false, "Show version and exit")
+		systemBeat    = flag.Bool("beat.system", false, "Expose system stats")
 	)
 	flag.Parse()
 
@@ -109,7 +110,7 @@ beatdiscovery:
 	// version metric
 	registry := prometheus.NewRegistry()
 	versionMetric := version.NewCollector(Name)
-	mainCollector := collector.NewMainCollector(httpClient, beatURL, Name, beatInfo)
+	mainCollector := collector.NewMainCollector(httpClient, beatURL, Name, beatInfo, *systemBeat)
 	registry.MustRegister(versionMetric)
 	registry.MustRegister(mainCollector)
 
