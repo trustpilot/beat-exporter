@@ -20,7 +20,7 @@ VERSION=$(git describe --tags | cut -d '-' -f1 | cut -d 'v' -f2)
 RELEASE_FILES=LICENSE
 
 mkdir -p $RELEASE_DIR
-touch "$RELEASE_DIR/sha256sums.txt"
+touch "${RELEASE_DIR}/sha256sums.txt"
 
 for ARTIFACT in $(ls .build); do
     ARTIFACT_NAME="beat-exporter-${VERSION}-${ARTIFACT}.tar.gz"
