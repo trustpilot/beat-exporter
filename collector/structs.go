@@ -15,12 +15,13 @@ type BeatInfo struct {
 
 //Stats stats endpoint json structure
 type Stats struct {
-	System     System     `json:"system"`
-	Beat       BeatStats  `json:"beat"`
-	LibBeat    LibBeat    `json:"libbeat"`
-	Registrar  Registrar  `json:"registrar"`
-	Filebeat   Filebeat   `json:"filebeat"`
-	Metricbeat Metricbeat `json:"metricbeat"`
+	System     System      `json:"system"`
+	Beat       BeatStats   `json:"beat"`
+	LibBeat    LibBeat     `json:"libbeat"`
+	Registrar  Registrar   `json:"registrar"`
+	Filebeat   Filebeat    `json:"filebeat"`
+	Metricbeat Metricbeat  `json:"metricbeat"`
+	Auditd     AuditdStats `json:"auditd"`
 }
 
 type exportedMetrics []struct {
