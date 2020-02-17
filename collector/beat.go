@@ -36,6 +36,10 @@ type BeatStats struct {
 		MemoryTotal float64 `json:"memory_total"`
 		RSS         float64 `json:"rss"`
 	} `json:"memstats"`
+
+	Runtime struct {
+		Goroutines uint64 `json:"goroutines"`
+	} `json:"runtime"`
 }
 
 type beatCollector struct {
@@ -142,6 +146,17 @@ func NewBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 				),
 				eval: func(stats *Stats) float64 {
 					return stats.Beat.Memstats.RSS
+				},
+				valType: prometheus.GaugeValue,
+			},
+			{
+				desc: prometheus.NewDesc(
+					prometheus.BuildFQName(beatInfo.Beat, "runtime", "goroutines"),
+					"beat.runtime.goroutines",
+					nil, nil,
+				),
+				eval: func(stats *Stats) float64 {
+					return float64(stats.Beat.Runtime.Goroutines)
 				},
 				valType: prometheus.GaugeValue,
 			},
