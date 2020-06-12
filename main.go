@@ -30,6 +30,8 @@ func main() {
 	var (
 		Name          = serviceName
 		listenAddress = flag.String("web.listen-address", ":9479", "Address to listen on for web interface and telemetry.")
+		tlsCertFile   = flag.String("tls.certfile", "", "TLS certs file if you want to use tls instead of http")
+		tlsKeyFile    = flag.String("tls.keyfile", "", "TLS key file if you want to use tls instead of http")
 		metricsPath   = flag.String("web.telemetry-path", "/metrics", "Path under which to expose metrics.")
 		beatURI       = flag.String("beat.uri", "http://localhost:5066", "HTTP API address of beat.")
 		beatTimeout   = flag.Duration("beat.timeout", 10*time.Second, "Timeout for trying to get stats from beat.")
@@ -134,12 +136,22 @@ beatdiscovery:
 		}()
 
 		log.Info("Starting listener")
-		if err := http.ListenAndServe(*listenAddress, nil); err != nil {
+		if *tlsCertFile != "" && *tlsKeyFile != "" {
+			if err := http.ListenAndServeTLS(*listenAddress, *tlsCertFile, *tlsKeyFile, nil); err != nil {
 
-			log.WithFields(log.Fields{
-				"err": err,
-			}).Errorf("http server quit with error: %v", err)
+				log.WithFields(log.Fields{
+					"err": err,
+				}).Errorf("tls server quit with error: %v", err)
 
+			}
+		} else {
+			if err := http.ListenAndServe(*listenAddress, nil); err != nil {
+
+				log.WithFields(log.Fields{
+					"err": err,
+				}).Errorf("http server quit with error: %v", err)
+
+			}
 		}
 		log.Info("Listener exited")
 	}()
