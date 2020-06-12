@@ -42,17 +42,21 @@ Configuration reference
 $ ./beat-exporter -help
 Usage of ./beat-exporter:
   -beat.system
-        Expose system stats
+    	Expose system stats
   -beat.timeout duration
-        Timeout for trying to get stats from beat. (default 10s)
+    	Timeout for trying to get stats from beat. (default 10s)
   -beat.uri string
-        HTTP API address of beat. (default "http://localhost:5066")
+    	HTTP API address of beat. (default "http://localhost:5066")
+  -tls.certfile string
+    	TLS certs file if you want to use tls instead of http
+  -tls.keyfile string
+    	TLS key file if you want to use tls instead of http
   -version
-        Show version and exit
+    	Show version and exit
   -web.listen-address string
-        Address to listen on for web interface and telemetry. (default ":9479")
+    	Address to listen on for web interface and telemetry. (default ":9479")
   -web.telemetry-path string
-        Path under which to expose metrics. (default "/metrics")
+    	Path under which to expose metrics. (default "/metrics")
 ```
 
 Contribution
