@@ -15,8 +15,10 @@ type LibBeat struct {
 		Reloads float64 `json:"reloads"`
 	} `json:"config"`
 	Output   LibBeatOutput   `json:"output"`
+	Outputs LibBeatOutputs `json:"outputs"`
 	Pipeline LibBeatPipeline `json:"pipeline"`
 }
+
 
 //LibBeatEvents json structure
 type LibBeatEvents struct {
@@ -43,6 +45,15 @@ type LibBeatOutput struct {
 	Read   LibBeatOutputBytesErrors `json:"read"`
 	Write  LibBeatOutputBytesErrors `json:"write"`
 	Type   string                   `json:"type"`
+}
+
+//LibBeatOutputs json structure
+type LibBeatOutputs struct {
+	Kafka struct {
+		Read float64 `json:"bytes_read"`
+		Write float64 `json:"bytes_write"`
+	} `json:"kafka"`
+	
 }
 
 //LibBeatPipeline json structure
@@ -119,7 +130,12 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 					nil, nil,
 				),
 				eval: func(stats *Stats) float64 {
-					return stats.LibBeat.Output.Read.Bytes
+					if stats.LibBeat.Output.Type == "kafka" {
+						return  stats.LibBeat.Outputs.Kafka.Read
+					} else {
+						return stats.LibBeat.Output.Read.Bytes
+					}
+
 				},
 				valType: prometheus.CounterValue,
 			},
@@ -141,7 +157,11 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 					nil, nil,
 				),
 				eval: func(stats *Stats) float64 {
-					return stats.LibBeat.Output.Write.Bytes
+					if stats.LibBeat.Output.Type == "kafka" {
+						return stats.LibBeat.Outputs.Kafka.Write
+					} else {
+						return stats.LibBeat.Output.Write.Bytes
+					}
 				},
 				valType: prometheus.CounterValue,
 			},
