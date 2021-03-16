@@ -54,7 +54,6 @@ func main() {
 	})
 
 	beatURL, err := url.Parse(*beatURI)
-
 	if err != nil {
 		log.Fatalf("failed to parse beat.uri, error: %v", err)
 	}
@@ -121,7 +120,8 @@ beatdiscovery:
 		promhttp.HandlerOpts{
 			ErrorLog:           log.New(),
 			DisableCompression: false,
-			ErrorHandling:      promhttp.ContinueOnError}),
+			ErrorHandling:      promhttp.ContinueOnError,
+		}),
 	)
 
 	http.HandleFunc("/", IndexHandler(*metricsPath))
@@ -138,19 +138,15 @@ beatdiscovery:
 		log.Info("Starting listener")
 		if *tlsCertFile != "" && *tlsKeyFile != "" {
 			if err := http.ListenAndServeTLS(*listenAddress, *tlsCertFile, *tlsKeyFile, nil); err != nil {
-
 				log.WithFields(log.Fields{
 					"err": err,
 				}).Errorf("tls server quit with error: %v", err)
-
 			}
 		} else {
 			if err := http.ListenAndServe(*listenAddress, nil); err != nil {
-
 				log.WithFields(log.Fields{
 					"err": err,
 				}).Errorf("http server quit with error: %v", err)
-
 			}
 		}
 		log.Info("Listener exited")
@@ -166,7 +162,6 @@ beatdiscovery:
 
 // IndexHandler returns a http handler with the correct metricsPath
 func IndexHandler(metricsPath string) http.HandlerFunc {
-
 	indexHTML := `
 <html>
 	<head>

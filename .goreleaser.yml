@@ -1,0 +1,68 @@
+project_name: beat-exporter
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: beat-exporter
+    binary: beat-exporter
+    main: ./main.go
+    flags:
+      - -tags="netgo static_build"
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -X github.com/prometheus/common/version.Revision={{ .FullCommit }}
+      - -X github.com/prometheus/common/version.Version={{ .Version }}
+      - -X github.com/prometheus/common/version.Branch={{ .Tag }}
+      - -X github.com/prometheus/common/version.BuildDate={{ .Date }}
+      - -X github.com/prometheus/common/version.BuildUser=goreleaser
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: tarball
+    builds:
+      - beat-exporter
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - none*
+
+dockers:
+  - ids:
+      - beat-exporter
+    goos: linux
+    goarch: amd64
+    image_templates:
+      - edgelab/beat-exporter:latest
+      - edgelab/beat-exporter:v{{ .Tag }}
+      - edgelab/beat-exporter:v{{ .Major }}
+    build_flag_templates:
+    - "--pull"
+    - "--label=org.opencontainers.image.created={{ .Date }}"
+    - "--label=org.opencontainers.image.title={{ .ProjectName }}"
+    - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
+    - "--label=org.opencontainers.image.version={{ .Version }}"
+
+checksum:
+  ids:
+    - beat-exporter
+
+signs:
+  - artifacts: checksum
+
+release:
+  github:
+    owner: edgelaboratories
+    name: beat-exporter
+  draft: true
+  disable: true
