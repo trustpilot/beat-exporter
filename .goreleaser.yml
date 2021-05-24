@@ -1,0 +1,19 @@
+---
+
+project_name: beat-exporter
+
+builds:
+  - main: main.go
+    binary: beat-exporter
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+nfpms:
+  - license: MIT
+    maintainer: Dmitry Andreev <dmitry.andreev@insales.ru>
+    vendor: InSales Rus LLC
+    description: Read *beat metrics and expose it in prometheus format
+    formats:
+      - deb
