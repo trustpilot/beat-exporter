@@ -44,7 +44,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "events"),
 					"filebeat.events",
 					nil, prometheus.Labels{"event": "active"},
 				),
@@ -53,7 +53,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "events"),
 					"filebeat.events",
 					nil, prometheus.Labels{"event": "added"},
 				),
@@ -62,7 +62,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "events"),
 					"filebeat.events",
 					nil, prometheus.Labels{"event": "done"},
 				),
@@ -71,7 +71,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "harvester"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "harvester"),
 					"filebeat.harvester",
 					nil, prometheus.Labels{"harvester": "closed"},
 				),
@@ -80,7 +80,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "harvester"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "harvester"),
 					"filebeat.harvester",
 					nil, prometheus.Labels{"harvester": "open_files"},
 				),
@@ -89,7 +89,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "harvester"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "harvester"),
 					"filebeat.harvester",
 					nil, prometheus.Labels{"harvester": "running"},
 				),
@@ -98,7 +98,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "harvester"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "harvester"),
 					"filebeat.harvester",
 					nil, prometheus.Labels{"harvester": "skipped"},
 				),
@@ -107,7 +107,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "harvester"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "harvester"),
 					"filebeat.harvester",
 					nil, prometheus.Labels{"harvester": "started"},
 				),
@@ -116,7 +116,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "input_log"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "input_log"),
 					"filebeat.input_log",
 					nil, prometheus.Labels{"files": "renamed"},
 				),
@@ -125,7 +125,7 @@ func NewFilebeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "filebeat", "input_log"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "filebeat", "input_log"),
 					"filebeat.input_log",
 					nil, prometheus.Labels{"files": "truncated"},
 				),

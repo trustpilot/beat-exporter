@@ -2,6 +2,7 @@ package collector
 
 import (
 	"github.com/prometheus/client_golang/prometheus"
+	"strings"
 )
 
 //BeatInfo beat info json structure
@@ -21,11 +22,19 @@ type Stats struct {
 	Registrar  Registrar   `json:"registrar"`
 	Filebeat   Filebeat    `json:"filebeat"`
 	Metricbeat Metricbeat  `json:"metricbeat"`
+	ApmServer  ApmServer   `json:"apm-server"`
 	Auditd     AuditdStats `json:"auditd"`
 }
 
-type exportedMetrics []struct {
+type exportedMetrics []exportedMetric
+
+type exportedMetric struct {
 	desc    *prometheus.Desc
 	eval    func(stats *Stats) float64
 	valType prometheus.ValueType
+}
+
+// Formats the beat name to a form acceptable as part of the metric name (e.g. apm-server -> apm_server)
+func (beatInfo BeatInfo) FormattedBeat() string {
+	return strings.Replace(beatInfo.Beat, "-", "_", -1)
 }

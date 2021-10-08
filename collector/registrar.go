@@ -32,7 +32,7 @@ func NewRegistrarCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collecto
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "registrar", "writes"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "registrar", "writes"),
 					"registrar.writes",
 					nil, prometheus.Labels{"writes": "fail"},
 				),
@@ -41,7 +41,7 @@ func NewRegistrarCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collecto
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "registrar", "writes"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "registrar", "writes"),
 					"registrar.writes",
 					nil, prometheus.Labels{"writes": "success"},
 				),
@@ -50,7 +50,7 @@ func NewRegistrarCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collecto
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "registrar", "writes"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "registrar", "writes"),
 					"registrar.writes",
 					nil, prometheus.Labels{"writes": "total"},
 				),
@@ -59,7 +59,7 @@ func NewRegistrarCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collecto
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "registrar", "states"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "registrar", "states"),
 					"registrar.states",
 					nil, prometheus.Labels{"state": "cleanup"},
 				),
@@ -68,7 +68,7 @@ func NewRegistrarCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collecto
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "registrar", "states"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "registrar", "states"),
 					"registrar.states",
 					nil, prometheus.Labels{"state": "current"},
 				),
@@ -77,7 +77,7 @@ func NewRegistrarCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collecto
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "registrar", "states"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "registrar", "states"),
 					"registrar.states",
 					nil, prometheus.Labels{"state": "update"},
 				),

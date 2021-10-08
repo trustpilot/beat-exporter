@@ -41,9 +41,9 @@ func NewMainCollector(client *http.Client, url *url.URL, name string, beatInfo *
 			prometheus.BuildFQName(name, "target", "info"),
 			"target information",
 			nil,
-			prometheus.Labels{"version": beatInfo.Version, "beat": beatInfo.Beat, "uri": instance}),
+			prometheus.Labels{"version": beatInfo.Version, "beat": beatInfo.FormattedBeat(), "uri": instance}),
 		targetUp: prometheus.NewDesc(
-			prometheus.BuildFQName("", beatInfo.Beat, "up"),
+			prometheus.BuildFQName("", beatInfo.FormattedBeat(), "up"),
 			"Target up",
 			nil,
 			nil),
@@ -60,6 +60,7 @@ func NewMainCollector(client *http.Client, url *url.URL, name string, beatInfo *
 	beat.Collectors["filebeat"] = NewFilebeatCollector(beatInfo, beat.Stats)
 	beat.Collectors["metricbeat"] = NewMetricbeatCollector(beatInfo, beat.Stats)
 	beat.Collectors["auditd"] = NewAuditdCollector(beatInfo, beat.Stats)
+	beat.Collectors["apm_server"] = NewApmServerCollector(beatInfo, beat.Stats)
 
 	return beat
 }
@@ -88,6 +89,8 @@ func (b *mainCollector) Describe(ch chan<- *prometheus.Desc) {
 		b.Collectors["registrar"].Describe(ch)
 	case "metricbeat":
 		b.Collectors["metricbeat"].Describe(ch)
+	case "apm-server":
+		b.Collectors["apm_server"].Describe(ch)
 	}
 
 }
@@ -124,6 +127,8 @@ func (b *mainCollector) Collect(ch chan<- prometheus.Metric) {
 		b.Collectors["registrar"].Collect(ch)
 	case "metricbeat":
 		b.Collectors["metricbeat"].Collect(ch)
+	case "apm-server":
+		b.Collectors["apm_server"].Collect(ch)
 	}
 
 }
