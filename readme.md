@@ -10,6 +10,7 @@ Current coverage
 
  * filebeat
  * metricbeat
+ * apm-server
  * packetbeat - _partial_
  * auditbeat - _partial_
 
