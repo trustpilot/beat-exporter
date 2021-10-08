@@ -1,5 +1,7 @@
 package collector
 
+// Generated using https://mholt.github.io/json-to-go/
+
 type ApmServer struct {
 	Acm struct {
 		Request struct {
