@@ -34,7 +34,7 @@ type exportedMetric struct {
 	valType prometheus.ValueType
 }
 
-// Name receives a copy of Foo since it doesn't need to modify it.
+// Formats the beat name to a form accaptable as part of the metric name (e.g. apm-server -> apm_server)
 func (beatInfo BeatInfo) FormattedBeat() string {
 	return strings.Replace(beatInfo.Beat, "-", "_", -1)
 }
