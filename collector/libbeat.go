@@ -70,7 +70,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat_config", "reloads_total"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat_config", "reloads_total"),
 					"libbeat.config.reloads",
 					nil, nil,
 				),
@@ -81,7 +81,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "config"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "config"),
 					"libbeat.config.module",
 					nil, prometheus.Labels{"module": "running"},
 				),
@@ -92,7 +92,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "config"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "config"),
 					"libbeat.config.module",
 					nil, prometheus.Labels{"module": "starts"},
 				),
@@ -103,7 +103,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "config"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "config"),
 					"libbeat.config.module",
 					nil, prometheus.Labels{"module": "stops"},
 				),
@@ -114,7 +114,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_read_bytes_total"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_read_bytes_total"),
 					"libbeat.output.read.bytes",
 					nil, nil,
 				),
@@ -125,7 +125,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_read_errors_total"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_read_errors_total"),
 					"libbeat.output.read.errors",
 					nil, nil,
 				),
@@ -136,7 +136,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_write_bytes_total"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_write_bytes_total"),
 					"libbeat.output.write.bytes",
 					nil, nil,
 				),
@@ -147,7 +147,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_write_errors_total"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_write_errors_total"),
 					"libbeat.output.write.errors",
 					nil, nil,
 				),
@@ -158,7 +158,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_events"),
 					"libbeat.output.events",
 					nil, prometheus.Labels{"type": "acked"},
 				),
@@ -169,7 +169,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_events"),
 					"libbeat.output.events",
 					nil, prometheus.Labels{"type": "active"},
 				),
@@ -180,7 +180,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_events"),
 					"libbeat.output.events",
 					nil, prometheus.Labels{"type": "batches"},
 				),
@@ -191,7 +191,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_events"),
 					"libbeat.output.events",
 					nil, prometheus.Labels{"type": "dropped"},
 				),
@@ -202,7 +202,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_events"),
 					"libbeat.output.events",
 					nil, prometheus.Labels{"type": "duplicates"},
 				),
@@ -213,7 +213,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "output_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "output_events"),
 					"libbeat.output.events",
 					nil, prometheus.Labels{"type": "failed"},
 				),
@@ -224,7 +224,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_clients"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_clients"),
 					"libbeat.pipeline.clients",
 					nil, nil,
 				),
@@ -235,7 +235,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_queue"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_queue"),
 					"libbeat.pipeline.queue",
 					nil, prometheus.Labels{"type": "acked"},
 				),
@@ -246,7 +246,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_events"),
 					"libbeat.pipeline.events",
 					nil, prometheus.Labels{"type": "active"},
 				),
@@ -257,7 +257,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_events"),
 					"libbeat.pipeline.events",
 					nil, prometheus.Labels{"type": "dropped"},
 				),
@@ -268,7 +268,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_events"),
 					"libbeat.pipeline.events",
 					nil, prometheus.Labels{"type": "failed"},
 				),
@@ -279,7 +279,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_events"),
 					"libbeat.pipeline.events",
 					nil, prometheus.Labels{"type": "filtered"},
 				),
@@ -290,7 +290,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_events"),
 					"libbeat.pipeline.events",
 					nil, prometheus.Labels{"type": "published"},
 				),
@@ -301,7 +301,7 @@ func NewLibBeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector 
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "libbeat", "pipeline_events"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "libbeat", "pipeline_events"),
 					"libbeat.pipeline.events",
 					nil, prometheus.Labels{"type": "retry"},
 				),
@@ -322,7 +322,7 @@ func (c *libbeatCollector) Describe(ch chan<- *prometheus.Desc) {
 	}
 
 	libbeatOutputType = prometheus.NewDesc(
-		prometheus.BuildFQName(c.beatInfo.Beat, "libbeat", "output_total"),
+		prometheus.BuildFQName(c.beatInfo.FormattedBeat(), "libbeat", "output_total"),
 		"libbeat.output.type",
 		[]string{"type"}, nil,
 	)

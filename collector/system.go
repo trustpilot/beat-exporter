@@ -35,7 +35,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system_cpu", "cores_total"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "system_cpu", "cores_total"),
 					"cpu cores",
 					nil, nil,
 				),
@@ -44,7 +44,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system", "load"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "system", "load"),
 					"system load",
 					nil, prometheus.Labels{"period": "1"},
 				),
@@ -53,7 +53,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system", "load"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "system", "load"),
 					"system load",
 					nil, prometheus.Labels{"period": "5"},
 				),
@@ -62,7 +62,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system", "load"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "system", "load"),
 					"system load",
 					nil, prometheus.Labels{"period": "15"},
 				),
@@ -71,7 +71,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system_load", "norm"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "system_load", "norm"),
 					"system load",
 					nil, prometheus.Labels{"period": "1"},
 				),
@@ -80,7 +80,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system_load", "norm"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "system_load", "norm"),
 					"system load",
 					nil, prometheus.Labels{"period": "5"},
 				),
@@ -89,7 +89,7 @@ func NewSystemCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "system_load", "norm"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "system_load", "norm"),
 					"system load",
 					nil, prometheus.Labels{"period": "15"},
 				),

@@ -39,7 +39,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "cpu"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "cpu"),
 					"system.cpu",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -48,7 +48,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "cpu"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "cpu"),
 					"system.cpu",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -57,7 +57,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "filesystem"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "filesystem"),
 					"system.filesystem",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -66,7 +66,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "filesystem"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "filesystem"),
 					"system.filesystem",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -75,7 +75,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "fsstat"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "fsstat"),
 					"system.fsstat",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -84,7 +84,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "fsstat"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "fsstat"),
 					"system.fsstat",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -93,7 +93,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "load"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "load"),
 					"system.load",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -102,7 +102,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "load"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "load"),
 					"system.load",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -111,7 +111,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "memory"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "memory"),
 					"system.memory",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -120,7 +120,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "memory"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "memory"),
 					"system.memory",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -129,7 +129,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "network"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "network"),
 					"system.network",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -138,7 +138,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "network"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "network"),
 					"system.network",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -147,7 +147,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "process"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "process"),
 					"system.process",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -156,7 +156,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "process"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "process"),
 					"system.process",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -165,7 +165,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "process_summary"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "process_summary"),
 					"system.process_summary",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -174,7 +174,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "process_summary"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "process_summary"),
 					"system.process_summary",
 					nil, prometheus.Labels{"event": "failures"},
 				),
@@ -183,7 +183,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "uptime"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "uptime"),
 					"system.uptime",
 					nil, prometheus.Labels{"event": "success"},
 				),
@@ -192,7 +192,7 @@ func NewMetricbeatCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collect
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "metricbeat_system", "uptime"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "metricbeat_system", "uptime"),
 					"system.uptime",
 					nil, prometheus.Labels{"event": "failures"},
 				),

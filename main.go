@@ -128,7 +128,7 @@ beatdiscovery:
 
 	log.WithFields(log.Fields{
 		"addr": *listenAddress,
-	}).Infof("Starting exporter with configured type: %s", beatInfo.Beat)
+	}).Infof("Starting exporter with configured type: %s", beatInfo.FormattedBeat())
 
 	go func() {
 		defer func() {
@@ -215,7 +215,7 @@ func loadBeatType(client *http.Client, url url.URL) (*collector.BeatInfo, error)
 
 	log.WithFields(
 		log.Fields{
-			"beat":     beatInfo.Beat,
+			"beat":     beatInfo.FormattedBeat(),
 			"version":  beatInfo.Version,
 			"name":     beatInfo.Name,
 			"hostname": beatInfo.Hostname,

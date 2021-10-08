@@ -26,7 +26,7 @@ func NewAuditdCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 		metrics: exportedMetrics{
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "auditd", "kernel_lost"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "auditd", "kernel_lost"),
 					"auditd.kernel_lost",
 					nil, nil,
 				),
@@ -37,7 +37,7 @@ func NewAuditdCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "auditd", "reassembler_seq_gaps"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "auditd", "reassembler_seq_gaps"),
 					"auditd.reassembler_seq_gaps",
 					nil, nil,
 				),
@@ -48,7 +48,7 @@ func NewAuditdCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "auditd", "received_msgs"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "auditd", "received_msgs"),
 					"auditd.received_msgs",
 					nil, nil,
 				),
@@ -59,7 +59,7 @@ func NewAuditdCollector(beatInfo *BeatInfo, stats *Stats) prometheus.Collector {
 			},
 			{
 				desc: prometheus.NewDesc(
-					prometheus.BuildFQName(beatInfo.Beat, "auditd", "userspace_lost"),
+					prometheus.BuildFQName(beatInfo.FormattedBeat(), "auditd", "userspace_lost"),
 					"auditd.userspace_lost",
 					nil, nil,
 				),
