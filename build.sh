@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-if [[ -z "$GITHUB_WORKSPACE" ]]; then
+if [ -z "$GITHUB_WORKSPACE" ]; then
   GITHUB_WORKSPACE=$(pwd)
   echo "Setting up GITHUB_WORKSPACE to current directory: ${GITHUB_WORKSPACE}"
 fi
 
-if [[ -z "$GITHUB_ACTOR" ]]; then
+if [ -z "$GITHUB_ACTOR" ]; then
   GITHUB_ACTOR=$(whoami)
   echo "Setting up GITHUB_ACTOR to current user: ${GITHUB_ACTOR}"
 fi
@@ -25,7 +25,7 @@ LDFLAGS="-s -X github.com/prometheus/common/version.Version=${GITVERSION} \
 for OS in "darwin" "linux" "windows" "freebsd"; do
     for ARCH in "amd64" "386"; do 
         echo "Building ${OS}/${ARCH} with version: ${GITVERSION}, revision: ${GITREVISION}, buildUser: ${GITHUB_ACTOR}"
-        if [[ $OS == "windows" ]]; then
+        if [ $OS == "windows" ]; then
             GO111MODULE=on CGO_ENABLED=0 GOOS=${OS} GOARCH=${ARCH} go build -ldflags "${LDFLAGS}" -tags 'netgo static_build' -a -o ".build/${OS}-${ARCH}/beat-exporter.exe"
         else 
             GO111MODULE=on CGO_ENABLED=0 GOOS=${OS} GOARCH=${ARCH} go build -ldflags "${LDFLAGS}" -tags 'netgo static_build' -a -o ".build/${OS}-${ARCH}/beat-exporter"
