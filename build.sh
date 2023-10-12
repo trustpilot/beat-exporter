@@ -22,7 +22,7 @@ LDFLAGS="-s -X github.com/prometheus/common/version.Version=${GITVERSION} \
 -X github.com/prometheus/common/version.BuildUser=${GITHUB_ACTOR} \
 -X github.com/prometheus/common/version.BuildDate=${TIME}"
 
-for OS in "darwin" "linux" "windows"; do
+for OS in "darwin" "linux" "windows" "freebsd"; do
     for ARCH in "amd64" "386"; do 
         echo "Building ${OS}/${ARCH} with version: ${GITVERSION}, revision: ${GITREVISION}, buildUser: ${GITHUB_ACTOR}"
         if [[ $OS == "windows" ]]; then
